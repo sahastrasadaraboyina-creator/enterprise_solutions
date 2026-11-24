@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUSCORE | Building the Future Through Innovation</title>
+
+    <!-- Google Fonts: Plus Jakarta Sans for ultra-crisp modern tech UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Custom Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        darkBg: '#080C14',
+                        cardBg: '#0F172A',
+                        cardHover: '#1E293B',
+                        accentCyan: '#06B6D4',
+                        accentIndigo: '#6366F1',
+                        accentPurple: '#A855F7',
+                    },
+                    boxShadow: {
+                        glow: '0 0 35px -5px rgba(6, 182, 212, 0.25)',
+                        glowPurple: '0 0 35px -5px rgba(168, 85, 247, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #080C14;
+            --card-color: #0F172A;
+            --text-main: #F8FAFC;
+            --accent-cyan: #06B6D4;
+            --accent-purple: #A855F7;
+            --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #080C14;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1E293B;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background-color: #080C14;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.7s ease, visibility 0.7s;
+        }
+        #preloader.loaded {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(6, 182, 212, 0.2);
+            border-top-color: #06B6D4;
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Glassmorphism Navigation & Cards */
+        .glass-nav {
+            background: rgba(8, 12, 20, 0.82);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            transition: transform 0.4s var(--transition-smooth), border-color 0.4s var(--transition-smooth), box-shadow 0.4s var(--transition-smooth);
+        }
+        .glass-card:hover {
+            border-color: rgba(6, 182, 212, 0.4);
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.15);
+            transform: translateY(-4px);
+        }
+
+        /* Animated Gradient Background Blobs */
+        @keyframes floatBlob {
+            0%, 100% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
+        }
+        .blob-1 {
+            animation: floatBlob 12s ease-in-out infinite;
+        }
+        .blob-2 {
+            animation: floatBlob 15s ease-in-out infinite reverse;
+        }
+
+        /* Scroll Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s var(--transition-smooth), transform 0.8s var(--transition-smooth);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.15s; }
+        .reveal-delay-2 { transition-delay: 0.3s; }
+        .reveal-delay-3 { transition-delay: 0.45s; }
+
+        /* Glowing Text Utilities */
+        .text-glow {
+            text-shadow: 0 0 25px rgba(6, 182, 212, 0.4);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #06B6D4 0%, #6366F1 50%, #A855F7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-cyan-500 selection:text-white">
+
+    <!-- ==================== PRELOADER ==================== -->
+    <div id="preloader" aria-hidden="true">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-cyan-500/30">
+                <i data-lucide="cpu" class="w-5 h-5 text-white"></i>
+            </div>
+            <span class="text-2xl font-bold tracking-wider text-white">NEXUS<span class="text-cyan-400">CORE</span></span>
+        </div>
+        <div class="loader-spinner"></div>
+    </div>
+
+    <!-- ==================== TOP ANNOUNCEMENT BAR ==================== -->
+    <div class="bg-gradient-to-r from-cyan-950 via-slate-900 to-purple-950 border-b border-white/10 text-xs text-slate-300 py-2.5 px-4 text-center font-medium">
+        <span class="inline-flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-[10px] font-bold uppercase tracking-wider">Series B</span>
+            NEXUSCORE AI 4.0 Released — Unlocking Autonomous Enterprise Workflows &nbsp;→&nbsp;
+            <a href="#products" class="underline hover:text-white font-semibold">Explore Features</a>
+        </span>
+    </div>
+
+    <!-- ==================== STICKY NAVIGATION BAR ==================== -->
+    <header id="navbar" class="sticky top-0 z-40 glass-nav transition-all duration-300">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between" aria-label="Main Navigation">
+            
+            <!-- Logo -->
+            <a href="#home" class="flex items-center gap-3 group focus:outline-none">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-indigo-600 to-purple-600 flex items-center justify-center shadow-lg shadow-cyan-500/30 group-hover:scale-105 transition-transform">
+                    <i data-lucide="cpu" class="w-5 h-5 text-white"></i>
+                </div>
+                <span class="text-xl sm:text-2xl font-bold tracking-tight text-white">NEXUS<span class="text-cyan-400">CORE</span></span>
+            </a>
+
+            <!-- Desktop Links -->
+            <ul class="hidden lg:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <li><a href="#home" class="nav-item hover:text-cyan-400 transition-colors py-1">Home</a></li>
+                <li><a href="#about" class="nav-item hover:text-cyan-400 transition-colors py-1">About Us</a></li>
+                <li><a href="#products" class="nav-item hover:text-cyan-400 transition-colors py-1">Products</a></li>
+                <li><a href="#team" class="nav-item hover:text-cyan-400 transition-colors py-1">Our Team</a></li>
+                <li><a href="#achievements" class="nav-item hover:text-cyan-400 transition-colors py-1">Achievements</a></li>
+                <li><a href="#testimonials" class="nav-item hover:text-cyan-400 transition-colors py-1">Testimonials</a></li>
+                <li><a href="#contact" class="nav-item hover:text-cyan-400 transition-colors py-1">Contact</a></li>
+            </ul>
+
+            <!-- CTA & Mobile Menu Toggle -->
+            <div class="flex items-center gap-4">
+                <a href="#contact" class="hidden sm:inline-flex px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white text-xs uppercase tracking-wider font-bold shadow-lg shadow-cyan-500/25 transition-all">
+                    Get Started
+                </a>
+
+                <button id="mobile-menu-btn" type="button" aria-label="Toggle Navigation" aria-expanded="false" class="lg:hidden p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-slate-200 focus:outline-none">
+                    <i data-lucide="menu" id="icon-open" class="w-5 h-5"></i>
+                    <i data-lucide="x" id="icon-close" class="w-5 h-5 hidden"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu Drawer -->
+        <div id="mobile-menu" class="lg:hidden hidden bg-slate-900/95 backdrop-blur-xl border-b border-white/10 px-6 py-8 shadow-2xl">
+            <ul class="flex flex-col gap-5 text-base font-semibold text-slate-200">
+                <li><a href="#home" class="mobile-link block hover:text-cyan-400">Home</a></li>
+                <li><a href="#about" class="mobile-link block hover:text-cyan-400">About Us</a></li>
+                <li><a href="#products" class="mobile-link block hover:text-cyan-400">Products & Services</a></li>
+                <li><a href="#team" class="mobile-link block hover:text-cyan-400">Our Team</a></li>
+                <li><a href="#achievements" class="mobile-link block hover:text-cyan-400">Achievements</a></li>
+                <li><a href="#testimonials" class="mobile-link block hover:text-cyan-400">Testimonials</a></li>
+                <li><a href="#contact" class="mobile-link block hover:text-cyan-400">Contact Us</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main>
+
+        <!-- 1. HERO SECTION -->
+        <section id="home" class="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-12 pb-24">
+            <!-- Animated Gradient Background Blobs -->
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-600/15 rounded-full blur-[140px] pointer-events-none blob-1"></div>
+            <div class="absolute bottom-10 right-10 w-[500px] h-[500px] bg-purple-600/15 rounded-full blur-[140px] pointer-events-none blob-2"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                
+                <!-- Badge -->
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/90 border border-cyan-500/30 text-cyan-300 text-xs font-semibold tracking-wide mb-8 hero-entrance opacity-0 translate-y-6 transition-all duration-700 shadow-lg shadow-cyan-500/10">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                    <span>Next-Generation Enterprise Intelligence</span>
+                </div>
+
+                <!-- Main Heading -->
+                <h1 class="font-extrabold text-4xl sm:text-6xl lg:text-7xl xl:text-[5.5rem] tracking-tight leading-[1.08] text-white max-w-5xl mx-auto mb-6 hero-entrance opacity-0 translate-y-6 transition-all duration-700 delay-100">
+                    Building the Future Through <span class="gradient-text">Innovation</span>
+                </h1>
+
+                <!-- Subtitle -->
+                <p class="text-lg sm:text-xl font-medium text-slate-300 max-w-2xl mx-auto mb-4 hero-entrance opacity-0 translate-y-6 transition-all duration-700 delay-200">
+                    We turn bold ideas into powerful solutions.
+                </p>
+
+                <!-- Introduction -->
+                <p class="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto mb-10 hero-entrance opacity-0 translate-y-6 transition-all duration-700 delay-300">
+                    NEXUSCORE empowers Fortune 500 enterprises and hyper-growth startups with quantum-secure cloud infrastructure, autonomous AI agents, and lightning-fast neural computing pipelines.
+                </p>
+
+                <!-- Dual CTAs -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 hero-entrance opacity-0 translate-y-6 transition-all duration-700 delay-400 mb-16">
+                    <a href="#products" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-bold text-xs uppercase tracking-widest shadow-xl shadow-cyan-500/30 transition-all text-center">
+                        Explore Our Solutions
+                    </a>
+                    <a href="#contact" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-slate-200 border border-slate-700 font-bold text-xs uppercase tracking-widest transition-all text-center">
+                        Contact Us
+                    </a>
+                </div>
+
+                <!-- Hero Visual Representation -->
+                <div class="relative max-w-5xl mx-auto rounded-2xl p-2 glass-card shadow-2xl hero-entrance opacity-0 translate-y-10 transition-all duration-1000 delay-500">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 via-transparent to-purple-500/10 rounded-2xl pointer-events-none"></div>
+                    <img 
+                        src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1400&q=85" 
+                        alt="NEXUSCORE AI enterprise cloud dashboard and real-time analytics"
+                        onerror="this.src='https://placehold.co/1200x700/0F172A/06B6D4?text=NEXUSCORE+Platform+Preview'"
+                        class="w-full rounded-xl object-cover shadow-inner aspect-[16/9]"
+                    >
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 2. ABOUT THE COMPANY SECTION -->
+        <section id="about" class="py-24 lg:py-32 bg-slate-950/50 border-t border-white/5 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+                    
+                    <!-- Left Illustration / Image -->
+                    <div class="lg:col-span-6 reveal">
+                        <div class="relative rounded-2xl overflow-hidden glass-card p-3 shadow-2xl">
+                            <div class="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 to-purple-500/20 rounded-2xl pointer-events-none"></div>
+                            <img 
+                                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=85" 
+                                alt="NEXUSCORE engineering team collaborating on cloud architecture"
+                                onerror="this.src='https://placehold.co/800x600/0F172A/06B6D4?text=Our+Team+Collaboration'"
+                                class="w-full rounded-xl object-cover aspect-[4/3]"
+                                loading="lazy"
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Right Content -->
+                    <div class="lg:col-span-6 reveal reveal-delay-1">
+                        <span class="text-xs uppercase tracking-[0.25em] text-cyan-400 font-bold block mb-3">About NEXUSCORE</span>
+                        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-6 leading-tight">
+                            Pioneering Autonomous Systems for a Connected World
+                        </h2>
+                        
+                        <p class="text-slate-300 text-base leading-relaxed mb-6">
+                            Founded in Silicon Valley by veteran researchers and cloud architects, NEXUSCORE bridges the gap between complex neural networks and mission-critical enterprise reliability. We solve the core bottleneck of scaling AI: latency, security, and computational overhead.
+                        </p>
+
+                        <!-- Vision & Mission Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8 pt-4 border-t border-white/10">
+                            <div>
+                                <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                                    <i data-lucide="eye" class="w-5 h-5 text-cyan-400"></i>
+                                    <span>Our Vision</span>
+                                </h3>
+                                <p class="text-xs text-slate-400 leading-relaxed">To democratize enterprise intelligence with self-optimizing cloud infrastructure that adapts in real time.</p>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                                    <i data-lucide="target" class="w-5 h-5 text-purple-400"></i>
+                                    <span>Our Mission</span>
+                                </h3>
+                                <p class="text-xs text-slate-400 leading-relaxed">Empowering engineers worldwide to deploy autonomous models securely with zero configuration overhead.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-6">
+                            <div>
+                                <p class="text-3xl font-extrabold text-white">99.999%</p>
+                                <p class="text-[11px] uppercase tracking-wider text-slate-400 mt-0.5">Uptime SLA Guaranteed</p>
+                            </div>
+                            <div class="h-10 w-px bg-white/10"></div>
+                            <div>
+                                <p class="text-3xl font-extrabold text-white">2.4M+</p>
+                                <p class="text-[11px] uppercase tracking-wider text-slate-400 mt-0.5">Daily API Invocations</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. PRODUCTS / SERVICES SECTION -->
+        <section id="products" class="py-24 lg:py-32 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+                    <span class="text-xs uppercase tracking-[0.25em] text-cyan-400 font-bold block mb-3">Enterprise Solutions</span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
+                        Engineered for High-Velocity Growth
+                    </h2>
+                    <p class="text-slate-400 text-sm sm:text-base">
+                        Explore our modular suite of cloud-native microservices, autonomous AI engines, and security frameworks.
+                    </p>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Product 1 -->
+                    <div class="glass-card rounded-2xl p-8 flex flex-col justify-between reveal">
+                        <div>
+                            <div class="w-14 h-14 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-6 shadow-lg shadow-cyan-500/10">
+                                <i data-lucide="cpu" class="w-7 h-7"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-3">Nexus Neural Engine</h3>
+                            <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                                Proprietary large-scale transformer runtime optimized for sub-millisecond inference on distributed edge clusters.
+                            </p>
+                            <ul class="space-y-2 mb-8 text-xs text-slate-400">
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i> Zero-latency model distillation</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i> Multi-tenant GPU virtualization</li>
+                            </ul>
+                        </div>
+                        <button type="button" onclick="openProductModal('Nexus Neural Engine')" class="inline-flex items-center gap-2 text-xs uppercase tracking-wider font-bold text-cyan-400 hover:text-cyan-300 transition-colors">
+                            <span>Learn More</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="glass-card rounded-2xl p-8 flex flex-col justify-between reveal reveal-delay-1">
+                        <div>
+                            <div class="w-14 h-14 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 mb-6 shadow-lg shadow-indigo-500/10">
+                                <i data-lucide="shield-check" class="w-7 h-7"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-3">QuantumShield Security</h3>
+                            <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                                Post-quantum cryptography framework safeguarding enterprise data lakes against adversarial quantum decryption.
+                            </p>
+                            <ul class="space-y-2 mb-8 text-xs text-slate-400">
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-indigo-400"></i> Lattice-based encryption keys</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-indigo-400"></i> Automated compliance auditing</li>
+                            </ul>
+                        </div>
+                        <button type="button" onclick="openProductModal('QuantumShield Security')" class="inline-flex items-center gap-2 text-xs uppercase tracking-wider font-bold text-indigo-400 hover:text-indigo-300 transition-colors">
+                            <span>Learn More</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="glass-card rounded-2xl p-8 flex flex-col justify-between reveal reveal-delay-2">
+                        <div>
+                            <div class="w-14 h-14 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 mb-6 shadow-lg shadow-purple-500/10">
+                                <i data-lucide="activity" class="w-7 h-7"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-3">Autonomic Cloud Flow</h3>
+                            <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                                Self-healing Kubernetes orchestration that predicts traffic spikes and auto-scales infrastructure autonomously.
+                            </p>
+                            <ul class="space-y-2 mb-8 text-xs text-slate-400">
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-purple-400"></i> Predictive autoscaling algorithms</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-purple-400"></i> 40% average cloud cost reduction</li>
+                            </ul>
+                        </div>
+                        <button type="button" onclick="openProductModal('Autonomic Cloud Flow')" class="inline-flex items-center gap-2 text-xs uppercase tracking-wider font-bold text-purple-400 hover:text-purple-300 transition-colors">
+                            <span>Learn More</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. WHY CHOOSE US SECTION -->
+        <section class="py-24 lg:py-32 bg-slate-950/60 border-y border-white/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+                    <span class="text-xs uppercase tracking-[0.25em] text-cyan-400 font-bold block mb-3">Our Core Advantage</span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">Why Industry Leaders Choose Us</h2>
+                    <p class="text-slate-400 text-sm sm:text-base">We combine relentless engineering rigor with a customer-first philosophy.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <div class="glass-card p-8 rounded-2xl reveal">
+                        <div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center text-cyan-400 mb-5">
+                            <i data-lucide="zap" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Innovation-Driven</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">Continuous R&D investment ensures your stack remains years ahead of industry standards.</p>
+                    </div>
+
+                    <div class="glass-card p-8 rounded-2xl reveal reveal-delay-1">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 mb-5">
+                            <i data-lucide="users" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Customer-Focused</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">Dedicated principal architects assigned to every enterprise account for 24/7 strategic alignment.</p>
+                    </div>
+
+                    <div class="glass-card p-8 rounded-2xl reveal reveal-delay-2">
+                        <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 mb-5">
+                            <i data-lucide="award" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Uncompromising Quality</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">Rigorous automated testing and formal verification guarantees bulletproof reliability.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. ACHIEVEMENTS / MILESTONES SECTION -->
+        <section id="achievements" class="py-24 lg:py-32 relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+                    <span class="text-xs uppercase tracking-[0.25em] text-cyan-400 font-bold block mb-3">Growth & Milestones</span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">Our Journey in Numbers</h2>
+                    <p class="text-slate-400 text-sm sm:text-base">Milestones achieved through trust, innovation, and relentless execution.</p>
+                </div>
+
+                <!-- Animated Counters Grid -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                    
+                    <div class="glass-card p-8 rounded-2xl text-center reveal">
+                        <p class="text-4xl sm:text-5xl font-extrabold text-white mb-2 text-glow" data-counter="500">0+</p>
+                        <p class="text-xs uppercase tracking-wider text-slate-400">Enterprise Clients</p>
+                    </div>
+
+                    <div class="glass-card p-8 rounded-2xl text-center reveal reveal-delay-1">
+                        <p class="text-4xl sm:text-5xl font-extrabold text-white mb-2 text-glow" data-counter="99.99">0%</p>
+                        <p class="text-xs uppercase tracking-wider text-slate-400">Platform Uptime</p>
+                    </div>
+
+                    <div class="glass-card p-8 rounded-2xl text-center reveal reveal-delay-2">
+                        <p class="text-4xl sm:text-5xl font-extrabold text-white mb-2 text-glow" data-counter="45">0M+</p>
+                        <p class="text-xs uppercase tracking-wider text-slate-400">Global End Users</p>
+                    </div>
+
+                    <div class="glass-card p-8 rounded-2xl text-center reveal reveal-delay-3">
+                        <p class="text-4xl sm:text-5xl font-extrabold text-white mb-2 text-glow" data-counter="120">0+</p>
+                        <p class="text-xs uppercase tracking-wider text-slate-400">Global Patents & Awards</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. OUR TEAM SECTION -->
+        <section id="team" class="py-24 lg:py-32 bg-slate-950/50 border-t border-white/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+                    <span class="text-xs uppercase tracking-[0.25em] text-cyan-400 font-bold block mb-3">Leadership & Vision</span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">Meet Our Executive Team</h2>
+                    <p class="text-slate-400 text-sm sm:text-base">Industry pioneers with decades of experience at top-tier research institutes and tech giants.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    
+                    <!-- Team Member 1 -->
+                    <div class="glass-card rounded-2xl overflow-hidden group reveal">
+                        <div class="aspect-[4/4] overflow-hidden bg-slate-900">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" alt="Dr. Elena Vance" onerror="this.src='https://placehold.co/500x500/0F172A/06B6D4?text=EV'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                        </div>
+                        <div class="p-6 text-center">
+                            <h3 class="text-xl font-bold text-white mb-1">Dr. Elena Vance</h3>
+                            <p class="text-xs uppercase tracking-wider text-cyan-400 font-semibold mb-3">CEO & Co-Founder</p>
+                            <p class="text-xs text-slate-400 leading-relaxed mb-4">Former AI Research Lead at MIT. Specialized in distributed neural networks.</p>
+                            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile" class="inline-flex w-9 h-9 rounded-full bg-slate-800 hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-400 items-center justify-center transition-colors">
+                                <i data-lucide="linkedin" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Team Member 2 -->
+                    <div class="glass-card rounded-2xl overflow-hidden group reveal reveal-delay-1">
+                        <div class="aspect-[4/4] overflow-hidden bg-slate-900">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80" alt="Marcus Thorne" onerror="this.src='https://placehold.co/500x500/0F172A/06B6D4?text=MT'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                        </div>
+                        <div class="p-6 text-center">
+                            <h3 class="text-xl font-bold text-white mb-1">Marcus Thorne</h3>
+                            <p class="text-xs uppercase tracking-wider text-cyan-400 font-semibold mb-3">Chief Technology Officer</p>
+                            <p class="text-xs text-slate-400 leading-relaxed mb-4">Ex-Principal Cloud Architect at AWS. Expert in quantum-secure protocols.</p>
+                            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile" class="inline-flex w-9 h-9 rounded-full bg-slate-800 hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-400 items-center justify-center transition-colors">
+                                <i data-lucide="linkedin" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Team Member 3 -->
+                    <div class="glass-card rounded-2xl overflow-hidden group reveal reveal-delay-2">
+                        <div class="aspect-[4/4] overflow-hidden bg-slate-900">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80" alt="Aaliyah Chen" onerror="this.src='https://placehold.co/500x500/0F172A/06B6D4?text=AC'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                        </div>
+                        <div class="p-6 text-center">
+                            <h3 class="text-xl font-bold text-white mb-1">Aaliyah Chen</h3>
+                            <p class="text-xs uppercase tracking-wider text-cyan-400 font-semibold mb-3">VP of Product Strategy</p>
+                            <p class="text-xs text-slate-400 leading-relaxed mb-4">Scaled three enterprise SaaS startups from seed to successful acquisition.</p>
+                            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile" class="inline-flex w-9 h-9 rounded-full bg-slate-800 hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-400 items-center justify-center transition-colors">
+                                <i data-lucide="linkedin" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Team Member 4 -->
+                    <div class="glass-card rounded-2xl overflow-hidden group reveal reveal-delay-3">
+                        <div class="aspect-[4/4] overflow-hidden bg-slate-900">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80" alt="Julian Sterling" onerror="this.src='https://placehold.co/500x500/0F172A/06B6D4?text=JS'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                        </div>
+                        <div class="p-6 text-center">
+                            <h3 class="text-xl font-bold text-white mb-1">Julian Sterling</h3>
+                            <p class="text-xs uppercase tracking-wider text-cyan-400 font-semibold mb-3">Head of Security & Trust</p>
+                            <p class="text-xs text-slate-400 leading-relaxed mb-4">Cybersecurity veteran advising Fortune 100 boards and fintech leaders.</p>
+                            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile" class="inline-flex w-9 h-9 rounded-full bg-slate-800 hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-400 items-center justify-center transition-colors">
+                                <i data-lucide="linkedin" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. TESTIMONIALS SECTION -->
+        <section id="testimonials" class="py-24 lg:py-32 relative">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+                    <span class="text-xs uppercase tracking-[0.25em] text-cyan-400 font-bold block mb-3">Client Success Stories</span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">Trusted by Global Innovators</h2>
+                </div>
+
+                <!-- Carousel Container -->
+                <div class="glass-card rounded-3xl p-8 sm:p-14 relative reveal">
+                    <div id="testimonial-slide" class="transition-all duration-500">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+
+                    <!-- Navigation Controls -->
+                    <div class="mt-10 pt-8 border-t border-white/10 flex items-center justify-between">
+                        <div id="testimonial-dots" class="flex items-center gap-2"></div>
+                        <div class="flex items-center gap-3">
+                            <button id="prev-test" type="button" aria-label="Previous testimonial" class="w-11 h-11 rounded-xl bg-slate-800 hover:bg-cyan-500/20 text-slate-200 hover:text-cyan-400 flex items-center justify-center transition-colors">
+                                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                            </button>
+                            <button id="next-test" type="button" aria-label="Next testimonial" class="w-11 h-11 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 text-white hover:opacity-90 flex items-center justify-center transition-opacity">
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. CALL-TO-ACTION SECTION -->
+        <section class="py-24 lg:py-32 relative overflow-hidden bg-slate-950">
+            <div class="absolute inset-0 bg-gradient-to-r from-cyan-600/10 via-purple-600/10 to-indigo-600/10 pointer-events-none"></div>
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                <div class="glass-card p-12 sm:p-16 rounded-3xl border border-cyan-500/20 shadow-2xl reveal">
+                    <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-6">
+                        Let's Build Something Great Together
+                    </h2>
+                    <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto mb-10">
+                        Ready to scale your infrastructure or deploy autonomous AI agents? Connect with our engineering leadership team today.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <a href="#contact" class="w-full sm:w-auto px-9 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-bold text-xs uppercase tracking-widest shadow-lg shadow-cyan-500/30 transition-all text-center">
+                            Get in Touch
+                        </a>
+                        <a href="#products" class="w-full sm:w-auto px-9 py-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-bold text-xs uppercase tracking-widest transition-all text-center">
+                            Explore Our Solutions
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. CONTACT SECTION -->
+        <section id="contact" class="py-24 lg:py-32 bg-slate-950/60 border-t border-white/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+                    
+                    <!-- Left Contact Info -->
+                    <div class="lg:col-span-5 reveal">
+                        <span class="text-xs uppercase tracking-[0.25em] text-cyan-400 font-bold block mb-3">Direct Inquiries</span>
+                        <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-6">Start a Conversation</h2>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-8">
+                            Whether you need a custom neural model deployment or a security audit, our experts are available 24/7.
+                        </p>
+
+                        <div class="space-y-6 mb-8">
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center shrink-0 mt-1">
+                                    <i data-lucide="map-pin" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs uppercase tracking-wider font-bold text-white">Global Headquarters</p>
+                                    <p class="text-sm text-slate-400 mt-1">500 Howard Street, Suite 400, San Francisco, CA 94105</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center shrink-0 mt-1">
+                                    <i data-lucide="phone" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs uppercase tracking-wider font-bold text-white">Telephone</p>
+                                    <a href="tel:+14155550198" class="text-sm text-slate-400 hover:text-white mt-1 block">+1 (415) 555-0198</a>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center shrink-0 mt-1">
+                                    <i data-lucide="mail" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs uppercase tracking-wider font-bold text-white">Email Address</p>
+                                    <a href="mailto:enterprise@nexuscore.ai" class="text-sm text-slate-400 hover:text-white mt-1 block">enterprise@nexuscore.ai</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Social Media -->
+                        <div class="flex items-center gap-3">
+                            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-500 text-slate-300 hover:text-cyan-400 flex items-center justify-center transition-colors">
+                                <i data-lucide="linkedin" class="w-4 h-4"></i>
+                            </a>
+                            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-500 text-slate-300 hover:text-cyan-400 flex items-center justify-center transition-colors">
+                                <i data-lucide="twitter" class="w-4 h-4"></i>
+                            </a>
+                            <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-500 text-slate-300 hover:text-cyan-400 flex items-center justify-center transition-colors">
+                                <i data-lucide="github" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right Contact Form -->
+                    <div class="lg:col-span-7 glass-card p-8 sm:p-12 rounded-3xl reveal reveal-delay-1">
+                        <h3 class="text-2xl font-bold text-white mb-6">Send Us a Message</h3>
+                        <form id="contact-form" class="space-y-6">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="contact-name" class="block text-xs uppercase tracking-wider font-semibold text-slate-300 mb-2">Your Name</label>
+                                    <input id="contact-name" type="text" required placeholder="Alexander Wright" class="w-full bg-slate-900/90 border border-slate-800 focus:border-cyan-400 rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none transition-colors">
+                                </div>
+                                <div>
+                                    <label for="contact-email" class="block text-xs uppercase tracking-wider font-semibold text-slate-300 mb-2">Work Email</label>
+                                    <input id="contact-email" type="email" required placeholder="alexander@company.com" class="w-full bg-slate-900/90 border border-slate-800 focus:border-cyan-400 rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none transition-colors">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="contact-company" class="block text-xs uppercase tracking-wider font-semibold text-slate-300 mb-2">Company / Organization</label>
+                                <input id="contact-company" type="text" required placeholder="Acme Global Technologies" class="w-full bg-slate-900/90 border border-slate-800 focus:border-cyan-400 rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none transition-colors">
+                            </div>
+
+                            <div>
+                                <label for="contact-message" class="block text-xs uppercase tracking-wider font-semibold text-slate-300 mb-2">Project Details or Message</label>
+                                <textarea id="contact-message" rows="4" required placeholder="Tell us about your cloud infrastructure or AI roadmap..." class="w-full bg-slate-900/90 border border-slate-800 focus:border-cyan-400 rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:outline-none transition-colors resize-none"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-bold text-xs uppercase tracking-widest shadow-lg shadow-cyan-500/25 transition-all">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-slate-950 text-slate-400 pt-20 pb-10 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-16 border-b border-white/10">
+                
+                <!-- Col 1: Brand -->
+                <div class="lg:col-span-4">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white shadow-lg">
+                            <i data-lucide="cpu" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-xl font-bold text-white tracking-tight">NEXUS<span class="text-cyan-400">CORE</span></span>
+                    </div>
+                    <p class="text-xs leading-relaxed mb-6 max-w-sm text-slate-400">
+                        Building the future of autonomous enterprise cloud infrastructure and secure neural computing pipelines.
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="w-9 h-9 rounded-xl bg-slate-900 hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-400 flex items-center justify-center transition-colors">
+                            <i data-lucide="linkedin" class="w-4 h-4"></i>
+                        </a>
+                        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter" class="w-9 h-9 rounded-xl bg-slate-900 hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-400 flex items-center justify-center transition-colors">
+                            <i data-lucide="twitter" class="w-4 h-4"></i>
+                        </a>
+                        <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="w-9 h-9 rounded-xl bg-slate-900 hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-400 flex items-center justify-center transition-colors">
+                            <i data-lucide="github" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Quick Links -->
+                <div class="lg:col-span-2">
+                    <h4 class="text-xs uppercase tracking-wider font-bold text-white mb-5">Navigation</h4>
+                    <ul class="space-y-3 text-xs text-slate-400">
+                        <li><a href="#home" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="#about" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#products" class="hover:text-white transition-colors">Products</a></li>
+                        <li><a href="#team" class="hover:text-white transition-colors">Our Team</a></li>
+                        <li><a href="#achievements" class="hover:text-white transition-colors">Achievements</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Solutions -->
+                <div class="lg:col-span-2">
+                    <h4 class="text-xs uppercase tracking-wider font-bold text-white mb-5">Solutions</h4>
+                    <ul class="space-y-3 text-xs text-slate-400">
+                        <li><a href="#products" class="hover:text-white transition-colors">Neural Engine</a></li>
+                        <li><a href="#products" class="hover:text-white transition-colors">QuantumShield</a></li>
+                        <li><a href="#products" class="hover:text-white transition-colors">Autonomic Cloud</a></li>
+                        <li><a href="#contact" class="hover:text-white transition-colors">Enterprise Support</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Newsletter -->
+                <div class="lg:col-span-4">
+                    <h4 class="text-xs uppercase tracking-wider font-bold text-white mb-5">Stay Updated</h4>
+                    <p class="text-xs text-slate-400 mb-4">Subscribe to our monthly research journal and architectural briefings.</p>
+                    <form id="newsletter-form" class="flex gap-2">
+                        <input type="email" required placeholder="Enter your work email" aria-label="Newsletter email" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-cyan-400">
+                        <button type="submit" class="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs uppercase tracking-wider shrink-0 transition-colors">
+                            Join
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- Copyright -->
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+                <p>&copy; <span id="year">2026</span> NEXUSCORE TECHNOLOGIES INC. All rights reserved.</p>
+                <p class="uppercase tracking-widest text-[11px] text-cyan-400 font-semibold">Built for innovation</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== PRODUCT MODAL ==================== -->
+    <div id="product-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div id="modal-backdrop" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+        <div class="glass-card max-w-lg w-full p-8 rounded-3xl relative z-10 border border-cyan-500/30 shadow-2xl">
+            <div class="flex items-center justify-between mb-6">
+                <span id="modal-tag" class="px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 text-[10px] font-bold uppercase tracking-wider">Enterprise Feature</span>
+                <button type="button" onclick="closeProductModal()" aria-label="Close modal" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <h3 id="modal-title" class="text-2xl font-bold text-white mb-3">Product Overview</h3>
+            <p id="modal-desc" class="text-slate-300 text-sm leading-relaxed mb-6">
+                Detailed architecture specifications and deployment guides are available for our enterprise partners.
+            </p>
+            <div class="flex items-center justify-end gap-3">
+                <button type="button" onclick="closeProductModal()" class="px-5 py-2.5 rounded-xl bg-slate-800 text-slate-300 text-xs uppercase font-bold tracking-wider hover:bg-slate-700">Close</button>
+                <a href="#contact" onclick="closeProductModal()" class="px-6 py-2.5 rounded-xl bg-cyan-500 text-slate-950 text-xs uppercase font-bold tracking-wider hover:bg-cyan-400">Request Access</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TOAST NOTIFICATION CONTAINER ==================== -->
+    <div id="toast-container" aria-live="polite" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+    <script>
+        // Testimonials Data
+        const testimonials = [
+            {
+                quote: "NEXUSCORE's neural engine reduced our real-time inference latency from 120ms to 4ms. It completely transformed our user experience.",
+                name: "Sarah Jenkins",
+                role: "Chief Technology Officer",
+                company: "Apex Global FinTech",
+                avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80"
+            },
+            {
+                quote: "The QuantumShield security framework allowed us to pass our SOC2 Type II and ISO-27001 audits in record time without friction.",
+                name: "David Kincaid",
+                role: "VP of Engineering",
+                company: "Vanguard Health Systems",
+                avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80"
+            },
+            {
+                quote: "Autonomic Cloud Flow cut our AWS and GCP infrastructure bills by 42% in the first month while maintaining 100% uptime SLA.",
+                name: "Mei-Ling Zhou",
+                role: "Head of Infrastructure",
+                company: "HyperScale Media",
+                avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80"
+            }
+        ];
+
+        let activeTestimonial = 0;
+
+        // Initialization
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            renderTestimonial(activeTestimonial);
+            initScrollReveal();
+            initCounters();
+
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('loaded');
+                document.querySelectorAll('.hero-entrance').forEach(el => {
+                    el.classList.remove('opacity-0', 'translate-y-6', 'translate-y-10');
+                });
+            }, 600);
+        });
+
+        // Testimonial Carousel
+        function renderTestimonial(idx) {
+            const t = testimonials[idx];
+            const slide = document.getElementById('testimonial-slide');
+            const dots = document.getElementById('testimonial-dots');
+
+            slide.style.opacity = '0';
+            setTimeout(() => {
+                slide.innerHTML = `
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <img src="${t.avatar}" alt="${t.name}" onerror="this.src='https://placehold.co/150x150/0F172A/06B6D4?text=${t.name[0]}'" class="w-20 h-20 rounded-2xl object-cover border border-cyan-500/30 shadow-lg shrink-0">
+                        <div>
+                            <div class="flex items-center gap-1 mb-3">
+                                ${Array(5).fill('<i data-lucide="star" class="w-4 h-4 text-cyan-400 fill-cyan-400">​</i>').join('')}
+                            </div>
+                            <blockquote class="text-lg sm:text-2xl font-medium text-white leading-relaxed mb-4">
+                                "${t.quote}"
+                            </blockquote>
+                            <p class="text-sm font-bold text-white">${t.name} <span class="text-xs font-normal text-slate-400">— ${t.role}, ${t.company}</span></p>
+                        </div>
+                    </div>
+                `;
+                lucide.createIcons();
+                slide.style.opacity = '1';
+            }, 150);
+
+            dots.innerHTML = testimonials.map((_, i) => `
+                <button type="button" aria-label="Go to testimonial ${i + 1}" onclick="selectTestimonial(${i})" class="h-1.5 transition-all duration-300 rounded-full ${i === idx ? 'w-8 bg-cyan-400' : 'w-2 bg-slate-700'}"></button>
+            `).join('');
+        }
+
+        window.selectTestimonial = function(i) {
+            activeTestimonial = i;
+            renderTestimonial(activeTestimonial);
+        };
+
+        document.getElementById('prev-test').addEventListener('click', () => {
+            activeTestimonial = (activeTestimonial - 1 + testimonials.length) % testimonials.length;
+            renderTestimonial(activeTestimonial);
+        });
+        document.getElementById('next-test').addEventListener('click', () => {
+            activeTestimonial = (activeTestimonial + 1) % testimonials.length;
+            renderTestimonial(activeTestimonial);
+        });
+
+        // Product Modal Controls
+        const productModal = document.getElementById('product-modal');
+        window.openProductModal = function(productName) {
+            document.getElementById('modal-title').textContent = productName;
+            document.getElementById('modal-desc').textContent = `${productName} provides cutting-edge capabilities engineered specifically for high-growth enterprises seeking autonomous scalability, military-grade security, and lightning-fast execution.`;
+            productModal.classList.remove('hidden');
+        };
+        window.closeProductModal = function() {
+            productModal.classList.add('hidden');
+        };
+        document.getElementById('modal-backdrop').addEventListener('click', closeProductModal);
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const iconOpen = document.getElementById('icon-open');
+        const iconClose = document.getElementById('icon-close');
+
+        mobileBtn.addEventListener('click', () => {
+            const hidden = mobileMenu.classList.toggle('hidden');
+            mobileBtn.setAttribute('aria-expanded', String(!hidden));
+            iconOpen.classList.toggle('hidden', !hidden);
+            iconClose.classList.toggle('hidden', hidden);
+        });
+
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                mobileBtn.setAttribute('aria-expanded', 'false');
+                iconOpen.classList.remove('hidden');
+                iconClose.classList.add('hidden');
+            });
+        });
+
+        // Toast Feedback
+        function showToast(msg) {
+            const container = document.getElementById('toast-container');
+            const el = document.createElement('div');
+            el.className = 'bg-slate-900 border border-cyan-500/40 text-white px-5 py-3.5 rounded-xl shadow-2xl text-xs uppercase tracking-wider font-semibold flex items-center gap-3 transform translate-y-4 opacity-0 transition-all duration-300';
+            el.innerHTML = `<span class="w-2 h-2 rounded-full bg-cyan-400 shrink-0"></span><span>${msg}</span>`;
+            container.appendChild(el);
+            requestAnimationFrame(() => el.classList.remove('translate-y-4', 'opacity-0'));
+            setTimeout(() => {
+                el.classList.add('translate-y-4', 'opacity-0');
+                setTimeout(() => el.remove(), 300);
+            }, 3200);
+        }
+
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            e.target.reset();
+            showToast('Message transmitted successfully. Our solutions team will contact you within 2 hours.');
+        });
+
+        document.getElementById('newsletter-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            e.target.reset();
+            showToast('Subscribed to NEXUSCORE Research Journal.');
+        });
+
+        // Scroll Reveal Observer
+        function initScrollReveal() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        }
+
+        // Animated Numbers Counter
+        function initCounters() {
+            const counters = document.querySelectorAll('[data-counter]');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const target = parseFloat(el.getAttribute('data-counter'));
+                        const isDecimal = String(target).includes('.');
+                        let current = 0;
+                        const increment = target / 40;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                current = target;
+                                clearInterval(timer);
+                            }
+                            el.textContent = isDecimal ? current.toFixed(2) + '%' : Math.floor(current) + (target === 500 ? '+' : target === 45 ? 'M+' : '+');
+                        }, 30);
+                        observer.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            counters.forEach(c => observer.observe(c));
+        }
+    </script>
+</body>
+</html>
